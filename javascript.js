@@ -21,4 +21,17 @@ function divideNumbers(a,b) {
 }
 
 
-console.log(divideNumbers(1,3));
+function operate(a,b,operation) {
+    let answer;
+    if (operation == "addition") {answer = addNumbers(a,b)};
+    if (operation == "subtraction") {answer = subtractNumbers(a,b)};
+    if (operation == "multiplication") {answer = multiplyNumbers(a,b)};
+    if (operation == "division") {answer = divideNumbers(a,b)};
+    return answer;
+}
+
+
+console.log(operate(9,7,"addition"));
+console.log(operate(9,7,"subtraction"));
+console.log(operate(9,7,"multiplication"));
+console.log(operate(9,7,"division"));
