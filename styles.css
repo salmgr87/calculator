@@ -36,16 +36,16 @@
     display: grid;
     grid-template-columns: auto auto auto auto;
     height: 350px;
-    
+    grid-gap: 6px;
     justify-content: center;
     margin: 30px 0 30px 0;
     
 }
 
 button {
-    width: 73px;
+    width: 70px;
     font-size: 1.5em;
-    margin: 1px;
+    
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
 }
