@@ -11,7 +11,8 @@ function multiplyNumbers(a,b) {
 }
 
 //Thinking about how to deal with the limited space of the calculator display
-let decimals = 9;
+//You'll probably need to create a function that rounds and deals with decimals
+let decimals = 20;
 
 function divideNumbers(a,b) {
     let n = a/b;
@@ -34,4 +35,4 @@ function operate(a,b,operation) {
 console.log(operate(9,7,"addition"));
 console.log(operate(9,7,"subtraction"));
 console.log(operate(9,7,"multiplication"));
-console.log(operate(9,7,"division"));
+console.log(operate(195,7,"division"));
