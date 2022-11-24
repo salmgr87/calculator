@@ -12,7 +12,7 @@ function multiplyNumbers(a,b) {
 
 //Thinking about how to deal with the limited space of the calculator display
 //You'll probably need to create a function that rounds and deals with decimals
-let decimals = 20;
+let decimals = 11;
 
 function divideNumbers(a,b) {
     let n = a/b;
@@ -32,7 +32,37 @@ function operate(a,b,operation) {
 }
 
 
-console.log(operate(9,7,"addition"));
-console.log(operate(9,7,"subtraction"));
-console.log(operate(9,7,"multiplication"));
-console.log(operate(195,7,"division"));
+
+
+const pressedOne = document.getElementById('one');
+pressedOne.addEventListener('click', function() {
+    console.log('1');
+    changeDisplay(1);
+    console.log('2');
+});
+
+const pressedTwo = document.getElementById('two');
+pressedTwo.addEventListener('click', function() {
+    console.log('3');
+    changeDisplay(2);
+    console.log('4');
+});
+
+//Note: Total length of number cannot exceed 11 characters
+let currentLength;
+
+//Note: currentDisplay is a string
+let currentDisplay = document.getElementById('display');
+
+function changeDisplay(a) {
+    if (currentDisplay.textContent =='READY') {
+        console.log('It says ready');
+        currentDisplay.textContent = a;
+        console.log(typeof currentDisplay.textContent);
+        currentLength = 1;
+
+    } else if (currentLength < 11) {
+        currentDisplay.textContent += a;
+        currentLength ++;
+    }
+}
