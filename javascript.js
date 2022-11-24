@@ -22,6 +22,20 @@ function divideNumbers(a,b) {
 }
 
 
+let firstNumber;
+let secondNumber;
+
+const pressedPlus = document.getElementById('plus');
+pressedPlus.addEventListener('click', function() {
+    console.log('here');
+    firstNumber = currentDisplay.textContent;
+    console.log(operate(firstNumber,4,'addition'));
+
+})
+
+
+let operation;
+
 function operate(a,b,operation) {
     let answer;
     if (operation == "addition") {answer = addNumbers(a,b)};
@@ -31,38 +45,55 @@ function operate(a,b,operation) {
     return answer;
 }
 
+const pressedDecimal = document.getElementById('decimal');
+pressedDecimal.addEventListener('click', function() {
+    changeDisplay('.');
+});
 
-
+const pressedZero = document.getElementById('zero');
+pressedZero.addEventListener('click', function() {
+    changeDisplay(0);
+});
 
 const pressedOne = document.getElementById('one');
 pressedOne.addEventListener('click', function() {
-    console.log('1');
     changeDisplay(1);
-    console.log('2');
 });
 
 const pressedTwo = document.getElementById('two');
 pressedTwo.addEventListener('click', function() {
-    console.log('3');
     changeDisplay(2);
-    console.log('4');
 });
+
+
 
 //Note: Total length of number cannot exceed 11 characters
 let currentLength;
 
-//Note: currentDisplay is a string
+//Note: currentDisplay.textContent is a string
 let currentDisplay = document.getElementById('display');
 
+
 function changeDisplay(a) {
-    if (currentDisplay.textContent =='READY') {
-        console.log('It says ready');
+    if (a == '.' && currentDisplay.textContent == 'READY') {
+        currentDisplay.textContent = '0.';
+        currentLength = 2;
+    }
+    else if (a == '.' && !(currentDisplay.textContent).includes('.')) {
+        currentDisplay.textContent += a;
+        currentLength ++;
+        console.log('yes');
+        console.log(currentDisplay.textContent);
+    
+    } else if (a == '.' && (currentDisplay.textContent).includes('.')) {
+        console.log("do nothing");
+    } else if (currentDisplay.textContent =='READY' || currentDisplay.textContent == '0') {
         currentDisplay.textContent = a;
-        console.log(typeof currentDisplay.textContent);
         currentLength = 1;
 
     } else if (currentLength < 11) {
         currentDisplay.textContent += a;
         currentLength ++;
+        
     }
 }
