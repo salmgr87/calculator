@@ -23,9 +23,23 @@ function divideNumbers(a,b) {
 
 
 let runningTotal = false;
+let secondNumber = false;
 let operationPressed = false;
+let operationPressedTwice = false;
+let readyToEqual = false;
 let clearDisplay = false;
 let lastOperation = false;
+
+const equalsPressed = document.getElementById('equals');
+equalsPressed.addEventListener('click', function() {
+    if (readyToEqual) {
+        runningTotal = operate(runningTotal,+currentDisplay.textContent,lastOperation);
+        currentDisplay.textContent = runningTotal;
+        clearDisplay = true;
+        lastOperation = false;
+    }
+
+})
 
 //When plus is first hit, it stores the display in firstNumber,
 //then stores 'addition' in lastOperation, and clearDisplay as true.
@@ -43,16 +57,51 @@ pressedPlus.addEventListener('click', function() {
             clearDisplay = true; 
             lastOperation = 'addition';
         } else if (runningTotal) {
+            secondNumber = +currentDisplay.textContent;
+            operationPressedTwice = true;
+            console.log('yeeehaaaawww2');
+
             runningTotal = operate(runningTotal,+currentDisplay.textContent,lastOperation);
             currentDisplay.textContent = runningTotal;
+            console.log(currentDisplay.textContent);
             clearDisplay = true;
             lastOperation = 'addition';
         }
-    }
+    } /*else if (operationPressedTwice && lastOperation == 'addition') {
+        runningTotal += secondNumber;
+        currentDisplay.textContent = runningTotal;
+    }*/
 })
 
 
-let operation;
+const pressedMinus = document.getElementById('minus');
+pressedMinus.addEventListener('click', function() {
+    
+    if (operationPressed == false) {
+        operationPressed = true;
+        if (!runningTotal) {
+            runningTotal = +currentDisplay.textContent;
+            clearDisplay = true; 
+            lastOperation = 'subtraction';
+        } else if (runningTotal) {
+            secondNumber = +currentDisplay.textContent;
+            operationPressedTwice = true;
+            console.log('yeeehaaaawww1');
+
+            runningTotal = operate(runningTotal,+currentDisplay.textContent,lastOperation);
+            currentDisplay.textContent = runningTotal;
+            clearDisplay = true;
+            lastOperation = 'subtraction';
+        }
+    }/* else if (operationPressedTwice && lastOperation == 'subtraction') {
+        runningTotal -= secondNumber;
+        currentDisplay.textContent = runningTotal;
+    }*/
+})
+
+
+
+
 
 function operate(a,b,operation) {
     let answer;
@@ -60,6 +109,9 @@ function operate(a,b,operation) {
     if (operation == "subtraction") {answer = subtractNumbers(a,b)};
     if (operation == "multiplication") {answer = multiplyNumbers(a,b)};
     if (operation == "division") {answer = divideNumbers(a,b)};
+    /*if (answer > 99999999999) {
+        return 'Too big'
+    }*/
     return answer;
 }
 
@@ -70,7 +122,11 @@ pressedDecimal.addEventListener('click', function() {
 
 const pressedZero = document.getElementById('zero');
 pressedZero.addEventListener('click', function() {
+    if (operationPressed) {
+        readyToEqual = true;
+    }
     operationPressed = false;
+    operationPressedTwice = false;
     if (clearDisplay == true) {
         currentDisplay.textContent = '';
         changeDisplay(0);
@@ -80,7 +136,11 @@ pressedZero.addEventListener('click', function() {
 
 const pressedOne = document.getElementById('one');
 pressedOne.addEventListener('click', function() {
+    if (operationPressed) {
+        readyToEqual = true;
+    }
     operationPressed = false;
+    operationPressedTwice = false;
     if (clearDisplay == true) {
         currentDisplay.textContent = '';
         changeDisplay(1);
@@ -90,7 +150,11 @@ pressedOne.addEventListener('click', function() {
 
 const pressedTwo = document.getElementById('two');
 pressedTwo.addEventListener('click', function() {
+    if (operationPressed) {
+        readyToEqual = true;
+    }
     operationPressed = false;
+    operationPressedTwice = false;
     if (clearDisplay == true) {
         currentDisplay.textContent = '';
         changeDisplay(2);
@@ -120,7 +184,7 @@ function changeDisplay(a) {
     
     } else if (a == '.' && (currentDisplay.textContent).includes('.')) {
         console.log("do nothing");
-    } else if (currentDisplay.textContent =='READY' || currentDisplay.textContent == '0') {
+    } else if (currentDisplay.textContent =='READY'/* || currentDisplay.textContent == '0'*/) {
         currentDisplay.textContent = a;
         currentLength = 1;
 
