@@ -22,15 +22,33 @@ function divideNumbers(a,b) {
 }
 
 
-let firstNumber;
-let secondNumber;
+let runningTotal = false;
+let operationPressed = false;
+let clearDisplay = false;
+let lastOperation = false;
 
+//When plus is first hit, it stores the display in firstNumber,
+//then stores 'addition' in lastOperation, and clearDisplay as true.
+//When the next number is hit, it clears the display.
+//Then, when plus is hit again, it checks if firstNumber is stored.
+//If so, it evaluates the lastOperation, then stores that into firstNumber and
+//clearDisplay becomes true again. lastOperation becomes 'addition' again.
 const pressedPlus = document.getElementById('plus');
 pressedPlus.addEventListener('click', function() {
     console.log('here');
-    firstNumber = currentDisplay.textContent;
-    console.log(operate(firstNumber,4,'addition'));
-
+    if (operationPressed == false) {
+        operationPressed = true;
+        if (!runningTotal) {
+            runningTotal = +currentDisplay.textContent;
+            clearDisplay = true; 
+            lastOperation = 'addition';
+        } else if (runningTotal) {
+            runningTotal = operate(runningTotal,+currentDisplay.textContent,lastOperation);
+            currentDisplay.textContent = runningTotal;
+            clearDisplay = true;
+            lastOperation = 'addition';
+        }
+    }
 })
 
 
@@ -52,17 +70,32 @@ pressedDecimal.addEventListener('click', function() {
 
 const pressedZero = document.getElementById('zero');
 pressedZero.addEventListener('click', function() {
-    changeDisplay(0);
+    operationPressed = false;
+    if (clearDisplay == true) {
+        currentDisplay.textContent = '';
+        changeDisplay(0);
+        clearDisplay = false;
+    } else changeDisplay(0);
 });
 
 const pressedOne = document.getElementById('one');
 pressedOne.addEventListener('click', function() {
-    changeDisplay(1);
+    operationPressed = false;
+    if (clearDisplay == true) {
+        currentDisplay.textContent = '';
+        changeDisplay(1);
+        clearDisplay = false;
+    } else changeDisplay(1);
 });
 
 const pressedTwo = document.getElementById('two');
 pressedTwo.addEventListener('click', function() {
-    changeDisplay(2);
+    operationPressed = false;
+    if (clearDisplay == true) {
+        currentDisplay.textContent = '';
+        changeDisplay(2);
+        clearDisplay = false;
+    } else {changeDisplay(2)};
 });
 
 
