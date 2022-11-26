@@ -32,7 +32,10 @@ let theAnswer;
 
 const equalsPressed = document.getElementById('equals');
 equalsPressed.addEventListener('click', function() {
-    if (equalized) {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+        console.log("does nothing");
+    }
+    else if (equalized) {
         theAnswer = operate(theAnswer, secondNumber, operation);
         currentDisplay.textContent = theAnswer;
         console.log(theAnswer);
@@ -52,41 +55,53 @@ equalsPressed.addEventListener('click', function() {
 
 const pressedPlus = document.getElementById('plus');
 pressedPlus.addEventListener('click', function() {
-    firstNumber = +currentDisplay.textContent;
-    firstNumberBoolean = true;
-    console.log('firstNumber ' + firstNumber);
-    operation = 'addition';
-    clearDisplay = true;
-    equalized = false;
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+        console.log("does nothing");
+    } else {firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        console.log('firstNumber ' + firstNumber);
+        operation = 'addition';
+        clearDisplay = true;
+        equalized = false;
+    }
 });
 
 
 const pressedMinus = document.getElementById('minus');
 pressedMinus.addEventListener('click', function() {
-    firstNumber = +currentDisplay.textContent;
-    firstNumberBoolean = true;
-    operation = 'subtraction';
-    clearDisplay = true;
-    equalized = false;
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+        console.log("does nothing");
+    } else {firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        operation = 'subtraction';
+        clearDisplay = true;
+        equalized = false;
+    }
 });
 
 const pressedTimes = document.getElementById('times');
 pressedTimes.addEventListener('click', function() {
-    firstNumber = +currentDisplay.textContent;
-    firstNumberBoolean = true;
-    operation = 'multiplication';
-    clearDisplay = true;
-    equalized = false;
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+        console.log("does nothing");
+    } else {firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        operation = 'multiplication';
+        clearDisplay = true;
+        equalized = false;
+    }
 });
 
 
 const pressedObelus = document.getElementById('obelus');
 pressedObelus.addEventListener('click', function() {
-    firstNumber = +currentDisplay.textContent;
-    firstNumberBoolean = true;
-    operation = 'division';
-    clearDisplay = true;
-    equalized = false;
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+        console.log("does nothing");
+    } else {firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        operation = 'division';
+        clearDisplay = true;
+        equalized = false;
+    }
 });
 
 
@@ -101,6 +116,7 @@ function operate(a,b,operation) {
     /*if (answer > 99999999999) {
         return 'Too big'
     }*/
+    answer = roundAnswer(answer);
     return answer;
 }
 
@@ -109,7 +125,13 @@ function roundAnswer(ans) {
     console.log('this will properly round the answer');
     if (ans > 99999999999 || ans < -9999999999) {
         return 'BIG ENOUGH';
-    } else return 
+    } else {
+        ans = +ans.toFixed(11);
+        ans = ans.toString();
+        ans = ans.substring(0,11);
+        ans = +ans;
+        return ans;
+    }
 }
 
 
@@ -200,7 +222,7 @@ function changeDisplay(a) {
         currentLength = 2;
         clearDisplay = false;
 
-    } else if (currentDisplay.textContent == 'READY' || clearDisplay || currentDisplay.textContent == '0') {
+    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || clearDisplay || currentDisplay.textContent == '0') {
         currentDisplay.textContent = a;
         currentLength = 1;
         clearDisplay = false;
