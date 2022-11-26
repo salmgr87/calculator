@@ -124,15 +124,26 @@ pressedDelete.addEventListener('click', function() {
     if (display.length == 1 || display == '-0') {
         currentDisplay.textContent = 0;
         currentLength = 1;
+        if (equalized) {
+            theAnswer = currentDisplay.textContent;
+        }
     } else if (display == 'READY' || display == 'BIG ENOUGH' || display == "LOL no") {
         console.log('delete does nothing here');
+        
     } else if (+display >-10 && +display < 0 && display.length == 2) {
         currentDisplay.textContent = 0;
         currentLength = 1;
+        if (equalized) {
+            theAnswer = currentDisplay.textContent;
+        }
     } else {display = display.substring(0, display.length-1);
         currentDisplay.textContent = display;
         currentLength -= 1;
+        if (equalized) {
+            theAnswer = currentDisplay.textContent;
+        }
     }
+    
 });
 
 
@@ -169,66 +180,111 @@ function roundAnswer(ans) {
 const pressedDecimal = document.getElementById('decimal');
 pressedDecimal.addEventListener('click', function() {
     changeDisplay('.');
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedZero = document.getElementById('zero');
 pressedZero.addEventListener('click', function() {
     changeDisplay(0);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedOne = document.getElementById('one');
 pressedOne.addEventListener('click', function() {
     changeDisplay(1);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedTwo = document.getElementById('two');
 pressedTwo.addEventListener('click', function() {
     changeDisplay(2);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedThree = document.getElementById('three');
 pressedThree.addEventListener('click', function() {
     changeDisplay(3);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedFour = document.getElementById('four');
 pressedFour.addEventListener('click', function() {
     changeDisplay(4);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedFive = document.getElementById('five');
 pressedFive.addEventListener('click', function() {
     changeDisplay(5);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedSix = document.getElementById('six');
 pressedSix.addEventListener('click', function() {
     changeDisplay(6);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedSeven = document.getElementById('seven');
 pressedSeven.addEventListener('click', function() {
     changeDisplay(7);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedEight = document.getElementById('eight');
 pressedEight.addEventListener('click', function() {
     changeDisplay(8);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 const pressedNine = document.getElementById('nine');
 pressedNine.addEventListener('click', function() {
     changeDisplay(9);
-    equalized = false;
+    if (equalized && firstNumberBoolean) {
+        equalized = false;
+        firstNumberBoolean = false;
+        firstNumber = undefined;
+    }
 });
 
 //Note: Total length of number cannot exceed 11 characters
