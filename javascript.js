@@ -70,6 +70,24 @@ pressedMinus.addEventListener('click', function() {
     equalized = false;
 });
 
+const pressedTimes = document.getElementById('times');
+pressedTimes.addEventListener('click', function() {
+    firstNumber = +currentDisplay.textContent;
+    firstNumberBoolean = true;
+    operation = 'multiplication';
+    clearDisplay = true;
+    equalized = false;
+});
+
+
+const pressedObelus = document.getElementById('obelus');
+pressedObelus.addEventListener('click', function() {
+    firstNumber = +currentDisplay.textContent;
+    firstNumberBoolean = true;
+    operation = 'division';
+    clearDisplay = true;
+    equalized = false;
+});
 
 
 
@@ -84,6 +102,14 @@ function operate(a,b,operation) {
         return 'Too big'
     }*/
     return answer;
+}
+
+
+function roundAnswer(ans) {
+    console.log('this will properly round the answer');
+    if (ans > 99999999999 || ans < -9999999999) {
+        return 'BIG ENOUGH';
+    } else return 
 }
 
 
