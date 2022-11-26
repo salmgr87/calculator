@@ -32,7 +32,7 @@ let theAnswer;
 
 const equalsPressed = document.getElementById('equals');
 equalsPressed.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         console.log("does nothing");
     }
     else if (equalized) {
@@ -54,7 +54,7 @@ equalsPressed.addEventListener('click', function() {
 
 const pressedPlus = document.getElementById('plus');
 pressedPlus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
@@ -68,7 +68,7 @@ pressedPlus.addEventListener('click', function() {
 
 const pressedMinus = document.getElementById('minus');
 pressedMinus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
@@ -80,7 +80,7 @@ pressedMinus.addEventListener('click', function() {
 
 const pressedTimes = document.getElementById('times');
 pressedTimes.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         console.log("does nothing");
         firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
@@ -94,7 +94,7 @@ pressedTimes.addEventListener('click', function() {
 
 const pressedObelus = document.getElementById('obelus');
 pressedObelus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         console.log("does nothing");
         firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
@@ -127,7 +127,7 @@ pressedDelete.addEventListener('click', function() {
         if (equalized) {
             theAnswer = currentDisplay.textContent;
         }
-    } else if (display == 'READY' || display == 'BIG ENOUGH' || display == "LOL no") {
+    } else if (display == 'READY' || display == 'BIG ENOUGH' || display == 'NEG NANCY' || display == "LOL no") {
         console.log('delete does nothing here');
         
     } else if (+display >-10 && +display < 0 && display.length == 2) {
@@ -145,6 +145,25 @@ pressedDelete.addEventListener('click', function() {
     }
     
 });
+
+
+const pressedSign = document.getElementById('sign');
+pressedSign.addEventListener('click', function() {
+    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent =='NEG NANCY' || currentDisplay.textContent =='LOL no' || currentDisplay.textContent == '0') {
+        console.log('does nothing');
+    }
+    else if ((currentDisplay.textContent).includes('-')) {
+        currentDisplay.textContent = currentDisplay.textContent.substring(1);
+        if (equalized) {
+            theAnswer = currentDisplay.textContent;
+        }
+    } else {
+        currentDisplay.textContent = '-' + currentDisplay.textContent;
+        if (equalized) {
+            theAnswer = currentDisplay.textContent;
+        }
+    }
+})
 
 
 function operate(a,b,operation) {
@@ -165,15 +184,23 @@ function operate(a,b,operation) {
 
 
 function roundAnswer(ans) {
-    if (ans > 99999999999 || ans < -9999999999) {
+    if (ans > 99999999999) {
         return 'BIG ENOUGH';
-    } else {
+    } else if (ans < -99999999999){
+        return 'NEG NANCY'
+    } else if (ans < 0) {
+        ans = +ans.toFixed(11);
+        ans = ans.toString();
+        ans = ans.substring(0,12);
+        ans = +ans;
+        return ans;
+    } else
         ans = +ans.toFixed(11);
         ans = ans.toString();
         ans = ans.substring(0,11);
         ans = +ans;
         return ans;
-    }
+    
 }
 
 
@@ -309,7 +336,7 @@ function changeDisplay(a) {
         currentLength = 2;
         clearDisplay = false;
 
-    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent =='LOL no' || clearDisplay || currentDisplay.textContent == '0') {
+    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent =='LOL no' || clearDisplay || currentDisplay.textContent == '0') {
         currentDisplay.textContent = a;
         currentLength = 1;
         clearDisplay = false;
@@ -327,6 +354,9 @@ function changeDisplay(a) {
             console.log("do nothing");
 
     } else if (currentLength < 11) {
+        currentDisplay.textContent += a;
+        currentLength += 1;
+    } else if (currentLength == 11 && currentDisplay.textContent[0] == '-') {
         currentDisplay.textContent += a;
         currentLength += 1;
     }
