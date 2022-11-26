@@ -45,7 +45,6 @@ equalsPressed.addEventListener('click', function() {
     else if (firstNumberBoolean && operation) {
         secondNumber = +currentDisplay.textContent;
         console.log(secondNumber);
-        console.log(operate(firstNumber, secondNumber, operation) + ' is the answer');
         theAnswer = operate(firstNumber, secondNumber, operation);
         currentDisplay.textContent = theAnswer;
         equalized = true;
@@ -56,7 +55,7 @@ equalsPressed.addEventListener('click', function() {
 const pressedPlus = document.getElementById('plus');
 pressedPlus.addEventListener('click', function() {
     if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
-        console.log("does nothing");
+        firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         console.log('firstNumber ' + firstNumber);
@@ -70,7 +69,7 @@ pressedPlus.addEventListener('click', function() {
 const pressedMinus = document.getElementById('minus');
 pressedMinus.addEventListener('click', function() {
     if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
-        console.log("does nothing");
+        firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'subtraction';
@@ -83,6 +82,7 @@ const pressedTimes = document.getElementById('times');
 pressedTimes.addEventListener('click', function() {
     if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
         console.log("does nothing");
+        firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'multiplication';
@@ -96,6 +96,7 @@ const pressedObelus = document.getElementById('obelus');
 pressedObelus.addEventListener('click', function() {
     if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH') {
         console.log("does nothing");
+        firstNumberBoolean = false;
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'division';
@@ -105,6 +106,34 @@ pressedObelus.addEventListener('click', function() {
 });
 
 
+const pressedAllClear = document.getElementById('AC');
+pressedAllClear.addEventListener('click', function() {
+    firstNumber = undefined;
+    firstNumberBoolean = false;
+    secondNumber = undefined;
+    operation = false;
+    clearDisplay = false;
+    equalized = false;
+    theAnswer = undefined;
+    currentDisplay.textContent = 'READY';
+});
+
+const pressedDelete = document.getElementById('delete');
+pressedDelete.addEventListener('click', function() {
+    let display = currentDisplay.textContent;
+    if (display.length == 1 || display == '-0') {
+        currentDisplay.textContent = 0;
+        currentLength = 1;
+    } else if (display == 'READY' || display == 'BIG ENOUGH' || display == "LOL no") {
+        console.log('delete does nothing here');
+    } else if (+display >-10 && +display < 0 && display.length == 2) {
+        currentDisplay.textContent = 0;
+        currentLength = 1;
+    } else {display = display.substring(0, display.length-1);
+        currentDisplay.textContent = display;
+        currentLength -= 1;
+    }
+});
 
 
 function operate(a,b,operation) {
@@ -112,17 +141,19 @@ function operate(a,b,operation) {
     if (operation == "addition") {answer = addNumbers(a,b)};
     if (operation == "subtraction") {answer = subtractNumbers(a,b)};
     if (operation == "multiplication") {answer = multiplyNumbers(a,b)};
-    if (operation == "division") {answer = divideNumbers(a,b)};
+    if (operation == "division") {
+        if (b == 0) {return 'LOL no';
+    } else answer = divideNumbers(a,b)};
     /*if (answer > 99999999999) {
         return 'Too big'
     }*/
     answer = roundAnswer(answer);
+    console.log('Current answer = ' + answer);
     return answer;
 }
 
 
 function roundAnswer(ans) {
-    console.log('this will properly round the answer');
     if (ans > 99999999999 || ans < -9999999999) {
         return 'BIG ENOUGH';
     } else {
@@ -222,7 +253,7 @@ function changeDisplay(a) {
         currentLength = 2;
         clearDisplay = false;
 
-    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || clearDisplay || currentDisplay.textContent == '0') {
+    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent =='LOL no' || clearDisplay || currentDisplay.textContent == '0') {
         currentDisplay.textContent = a;
         currentLength = 1;
         clearDisplay = false;
