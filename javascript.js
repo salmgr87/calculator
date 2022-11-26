@@ -166,6 +166,28 @@ pressedSign.addEventListener('click', function() {
 })
 
 
+const pressedSquareRoot = document.getElementById('squareRoot');
+pressedSquareRoot.addEventListener('click', function() {
+    let squared = +currentDisplay.textContent;
+    if (squared < 0) {
+        currentDisplay.textContent = ' LOL no';
+    } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent =='LOL no') {
+        console.log('does nothing');
+    } else {
+        let squared = +currentDisplay.textContent;
+        firstNumber = undefined;
+        firstNumberBoolean = false;
+        secondNumber = undefined;
+        operation = false;
+        clearDisplay = false;
+        equalized = false;
+        theAnswer = undefined;
+        currentDisplay.textContent = roundAnswer(Math.sqrt(squared));
+    
+    }
+});
+
+
 function operate(a,b,operation) {
     let answer = 'error';
     if (operation == "addition") {answer = addNumbers(a,b)};
