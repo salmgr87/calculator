@@ -28,27 +28,36 @@ let operation = false;
 let clearDisplay = false;
 let equalized = false;
 let theAnswer;
+let operationPressed = false;
+let firstTime = true;
+let repeatedNumber;
 
 
 const equalsPressed = document.getElementById('equals');
 equalsPressed.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
-        console.log("does nothing");
+    if (theAnswer === NaN || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+        console.log("does nothing maaan");
     }
     else if (equalized) {
-        theAnswer = operate(theAnswer, secondNumber, operation);
+        if (firstTime) {
+            firstTime = false;
+            repeatedNumber = secondNumber;
+        }
+        theAnswer = operate(theAnswer, repeatedNumber, operation);
         currentDisplay.textContent = theAnswer;
-        console.log(theAnswer);
-        console.log(typeof(theAnswer));
+        console.log(theAnswer + ' is theAnswer');
+        console.log(secondNumber + ' is secondNumber');
         clearDisplay = true;
+        equalized = true;
     }
-    else if (firstNumberBoolean && operation) {
+    else if (firstNumberBoolean && operation && equalized == false) {
         secondNumber = +currentDisplay.textContent;
         console.log(secondNumber);
         theAnswer = operate(firstNumber, secondNumber, operation);
         currentDisplay.textContent = theAnswer;
         equalized = true;
         clearDisplay = true;
+        firstTime = true;
     }
 });
 
@@ -62,6 +71,7 @@ pressedPlus.addEventListener('click', function() {
         operation = 'addition';
         clearDisplay = true;
         equalized = false;
+        firstTime = true;
     }
 });
 
@@ -75,6 +85,7 @@ pressedMinus.addEventListener('click', function() {
         operation = 'subtraction';
         clearDisplay = true;
         equalized = false;
+        firstTime = true;
     }
 });
 
@@ -88,6 +99,7 @@ pressedTimes.addEventListener('click', function() {
         operation = 'multiplication';
         clearDisplay = true;
         equalized = false;
+        firstTime = true;
     }
 });
 
@@ -102,6 +114,7 @@ pressedObelus.addEventListener('click', function() {
         operation = 'division';
         clearDisplay = true;
         equalized = false;
+        firstTime = true;
     }
 });
 
@@ -114,6 +127,7 @@ pressedAllClear.addEventListener('click', function() {
     operation = false;
     clearDisplay = false;
     equalized = false;
+    firstTime = true;
     theAnswer = undefined;
     currentDisplay.textContent = 'READY';
 });
@@ -170,9 +184,25 @@ const pressedSquareRoot = document.getElementById('squareRoot');
 pressedSquareRoot.addEventListener('click', function() {
     let squared = +currentDisplay.textContent;
     if (squared < 0) {
-        currentDisplay.textContent = ' LOL no';
+        currentDisplay.textContent = 'LOL no';
+        firstNumber = undefined;
+        firstNumberBoolean = false;
+        secondNumber = undefined;
+        operation = false;
+        clearDisplay = false;
+        equalized = false;
+        firstTime = true;
+        theAnswer = undefined;
     } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent =='LOL no') {
         console.log('does nothing');
+        firstNumber = undefined;
+        firstNumberBoolean = false;
+        secondNumber = undefined;
+        operation = false;
+        clearDisplay = false;
+        equalized = false;
+        firstTime = true;
+        theAnswer = undefined;
     } else {
         let squared = +currentDisplay.textContent;
         firstNumber = undefined;
@@ -181,8 +211,10 @@ pressedSquareRoot.addEventListener('click', function() {
         operation = false;
         clearDisplay = false;
         equalized = false;
+        firstTime = true;
         theAnswer = undefined;
         currentDisplay.textContent = roundAnswer(Math.sqrt(squared));
+        currentLength = (currentDisplay.textContent).length;
     
     }
 });
@@ -194,19 +226,49 @@ function operate(a,b,operation) {
     if (operation == "subtraction") {answer = subtractNumbers(a,b)};
     if (operation == "multiplication") {answer = multiplyNumbers(a,b)};
     if (operation == "division") {
-        if (b == 0) {return 'LOL no';
-    } else answer = divideNumbers(a,b)};
+        if (b == 0) {
+        firstNumber = false;
+        firstNumberBoolean = false;
+        secondNumber = undefined;
+        operation = false;
+        clearDisplay = false;
+        equalized = false;
+        firstTime = true;
+        theAnswer = undefined;
+        currentDisplay.textContent = 'LOL no';
+        answer = 'LOL no';
+        console.log('crazy pills');
+        nanBroken = true;
+        
+    } else {
+        answer = divideNumbers(a,b)
+        }
+    }
     /*if (answer > 99999999999) {
         return 'Too big'
     }*/
-    answer = roundAnswer(answer);
-    console.log('Current answer = ' + answer);
-    return answer;
+    if (answer == 'LOL no') {
+        console.log('seriously bro');
+        return answer;
+    } else {
+        if (answer == 'LOL no') {
+            return answer;
+        } else {
+            answer = roundAnswer(answer);
+            console.log('Current answer = ' + answer);
+            equalized = false;
+            firstTime = true;
+            return answer;
+        }
+    }
 }
 
 
 function roundAnswer(ans) {
-    if (ans > 99999999999) {
+    if (ans == 'LOL no') {
+        return 'LOL no';
+    }
+    else if (ans > 99999999999) {
         return 'BIG ENOUGH';
     } else if (ans < -99999999999){
         return 'NEG NANCY'
@@ -214,14 +276,48 @@ function roundAnswer(ans) {
         ans = +ans.toFixed(11);
         ans = ans.toString();
         ans = ans.substring(0,12);
-        ans = +ans;
-        return ans;
+        if (ans.includes('e')) {
+            console.log('goat here');
+            let expo = ans.substring(ans.length-1);
+            if (expo == 0) {
+                return 0;
+            }
+            let leadingValues = ans.substring(0,ans.length-3);
+            let leadingValuesLength = leadingValues.length;
+            if (leadingValues.includes('.')) {
+                leadingValuesLength -=1;
+            }
+            ans = +ans;
+            ans = ans.toFixed(leadingValuesLength-2 + expo);
+            return ans;
+
+        } else {
+            ans = +ans;
+            return ans;
+        }
     } else
         ans = +ans.toFixed(11);
         ans = ans.toString();
         ans = ans.substring(0,11);
-        ans = +ans;
-        return ans;
+        if (ans.includes('e')) {
+            console.log('goat here');
+            let expo = ans.substring(ans.length-1);
+            if (expo == 0) {
+                return 0;
+            }
+            let leadingValues = ans.substring(0,ans.length-3);
+            let leadingValuesLength = leadingValues.length;
+            if (leadingValues.includes('.')) {
+                leadingValuesLength -=1;
+            }
+            ans = +ans;
+            ans = ans.toFixed(leadingValuesLength-1 + expo);
+            return ans;
+        }
+            else 
+            ans = +ans;
+        
+            return ans;
     
 }
 
@@ -231,6 +327,7 @@ pressedDecimal.addEventListener('click', function() {
     changeDisplay('.');
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -241,6 +338,7 @@ pressedZero.addEventListener('click', function() {
     changeDisplay(0);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -251,6 +349,7 @@ pressedOne.addEventListener('click', function() {
     changeDisplay(1);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -261,6 +360,7 @@ pressedTwo.addEventListener('click', function() {
     changeDisplay(2);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -271,6 +371,7 @@ pressedThree.addEventListener('click', function() {
     changeDisplay(3);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -281,6 +382,7 @@ pressedFour.addEventListener('click', function() {
     changeDisplay(4);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -291,6 +393,7 @@ pressedFive.addEventListener('click', function() {
     changeDisplay(5);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -301,6 +404,7 @@ pressedSix.addEventListener('click', function() {
     changeDisplay(6);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -311,6 +415,7 @@ pressedSeven.addEventListener('click', function() {
     changeDisplay(7);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -321,6 +426,7 @@ pressedEight.addEventListener('click', function() {
     changeDisplay(8);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
@@ -331,6 +437,7 @@ pressedNine.addEventListener('click', function() {
     changeDisplay(9);
     if (equalized && firstNumberBoolean) {
         equalized = false;
+        firstTime = true;
         firstNumberBoolean = false;
         firstNumber = undefined;
     }
