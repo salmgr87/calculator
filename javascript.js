@@ -33,6 +33,8 @@ let readyToEqual = false;
 let justOperated = false;
 let pressedOnce = false;
 
+window.addEventListener('keydown', keyboardPressed);
+
 
 const equalsPressed = document.getElementById('equals');
 equalsPressed.addEventListener('click', function() {
@@ -293,7 +295,7 @@ pressedSign.addEventListener('click', function() {
             theAnswer = currentDisplay.textContent;
         }
     }
-})
+});
 
 
 const pressedSquareRoot = document.getElementById('squareRoot');
@@ -473,6 +475,9 @@ pressedZero.addEventListener('click', function() {
     }
 });
 
+
+
+
 const pressedOne = document.getElementById('one');
 pressedOne.addEventListener('click', function() {
     changeDisplay(1);
@@ -637,3 +642,359 @@ function changeDisplay(a) {
         pressedOnce = false;
     }
 };
+
+
+
+//Below are all the keydown events. There definitely was a better way to make this code much shorter.
+
+function keyboardPressed(e) {
+    if (e.key == '='){
+        if (theAnswer === NaN || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+            console.log("does nothing maaan");
+        }
+        else if (equalized) {
+            if (firstTime) {
+                firstTime = false;
+                repeatedNumber = secondNumber;
+            }
+            theAnswer = operate(theAnswer, repeatedNumber, operation);
+            if (theAnswer == 0) {theAnswer = "0"};
+            currentDisplay.textContent = theAnswer;
+            console.log(theAnswer + ' is theAnswer');
+            console.log(secondNumber + ' is secondNumber');
+            clearDisplay = true;
+            equalized = true;
+            readyToEqual = false;
+        }
+        else if (firstNumberBoolean && operation && equalized == false) {
+            secondNumber = +currentDisplay.textContent;
+            console.log(secondNumber);
+            theAnswer = operate(firstNumber, secondNumber, operation);
+            currentDisplay.textContent = theAnswer;
+            equalized = true;
+            clearDisplay = true;
+            firstTime = true;
+            readyToEqual = false;
+        }
+    }
+    
+    if (e.key == '+') {
+        if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+            firstNumberBoolean = false;
+            currentDisplay.textContent = 0;
+            theAnswer = '';
+            equalized = false;
+            readyToEqual =  false;
+        } else if (justOperated || pressedOnce) {
+            operation = 'addition';
+        }
+        else if (readyToEqual) {
+            secondNumber = +currentDisplay.textContent;
+            theAnswer = operate(firstNumber, secondNumber, operation);
+            currentDisplay.textContent = theAnswer;
+            firstNumber = theAnswer;
+            clearDisplay = true;
+            operation = 'addition';
+            pressedOnce = false;
+            
+        }   else {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'addition';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+    
+        }
+    }
+
+    if (e.key == '-') {
+        if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+            firstNumberBoolean = false;
+            currentDisplay.textContent = 0;
+            theAnswer = '';
+            equalized = false;
+            readyToEqual =  false;
+        } else if (justOperated || pressedOnce) {
+            operation = 'subtraction';
+        } else if (readyToEqual) {
+            secondNumber = +currentDisplay.textContent;
+            theAnswer = operate(firstNumber, secondNumber, operation);
+            currentDisplay.textContent = theAnswer;
+            firstNumber = theAnswer;
+            clearDisplay = true;
+            operation = 'subtraction';
+            pressedOnce = false;
+            
+        } else {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'subtraction';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
+    }
+
+    if (e.key == '*' || e.key == 'x') {
+        if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+            firstNumberBoolean = false;
+            currentDisplay.textContent = 0;
+            theAnswer = '';
+            equalized = false;
+            readyToEqual =  false;
+        } else if (justOperated || pressedOnce) {
+            operation = 'multiplication';
+        } else if (readyToEqual) {
+            secondNumber = +currentDisplay.textContent;
+            theAnswer = operate(firstNumber, secondNumber, operation);
+            currentDisplay.textContent = theAnswer;
+            firstNumber = theAnswer;
+            clearDisplay = true;
+            operation = 'multiplication';
+            pressedOnce = false;
+            
+        } else {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'multiplication';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
+    }
+
+    if (e.key == '\\') {
+        if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+            firstNumberBoolean = false;
+            currentDisplay.textContent = 0;
+            theAnswer = '';
+            equalized = false;
+            readyToEqual =  false;
+        } else if (justOperated || pressedOnce) {
+            operation = 'division';
+        } else if (readyToEqual) {
+            secondNumber = +currentDisplay.textContent;
+            theAnswer = operate(firstNumber, secondNumber, operation);
+            currentDisplay.textContent = theAnswer;
+            firstNumber = theAnswer;
+            clearDisplay = true;
+            operation = 'division';
+            pressedOnce = false;
+            
+        } else {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'division';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
+    }
+
+    if (e.key == 's') { //Square root
+        let squared = +currentDisplay.textContent;
+        if (squared < 0) {
+            currentDisplay.textContent = 'LOL no';
+            firstNumber = undefined;
+            firstNumberBoolean = false;
+            secondNumber = undefined;
+            operation = false;
+            clearDisplay = false;
+            equalized = false;
+            firstTime = true;
+            theAnswer = undefined;
+        } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent =='LOL no') {
+            console.log('does nothing');
+            firstNumber = undefined;
+            firstNumberBoolean = false;
+            secondNumber = undefined;
+            operation = false;
+            clearDisplay = false;
+            equalized = false;
+            firstTime = true;
+            theAnswer = undefined;
+        } else {
+            let squared = +currentDisplay.textContent;
+            firstNumber = undefined;
+            firstNumberBoolean = false;
+            secondNumber = undefined;
+            operation = false;
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            theAnswer = undefined;
+            currentDisplay.textContent = roundAnswer(Math.sqrt(squared));
+            currentLength = (currentDisplay.textContent).length;
+        
+        }
+    }
+    
+    
+    if (e.key == '`') { //Change the sign
+        if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent =='NEG NANCY' || currentDisplay.textContent =='LOL no' || currentDisplay.textContent == '0') {
+            console.log('does nothing');
+        }
+        else if ((currentDisplay.textContent).includes('-')) {
+            currentDisplay.textContent = currentDisplay.textContent.substring(1);
+            if (equalized) {
+                theAnswer = currentDisplay.textContent;
+            }
+        } else {
+            currentDisplay.textContent = '-' + currentDisplay.textContent;
+            if (equalized) {
+                theAnswer = currentDisplay.textContent;
+            }
+        }
+    }
+    
+    
+    
+    if (e.key == 'Escape') {
+        firstNumber = undefined;
+        firstNumberBoolean = false;
+        secondNumber = undefined;
+        operation = false;
+        clearDisplay = false;
+        equalized = false;
+        firstTime = true;
+        theAnswer = undefined;
+        readyToEqual = false;
+        currentDisplay.textContent = 'READY';
+    }
+    
+    
+    if (e.key == 'Backspace') {
+            let display = currentDisplay.textContent;
+            if (display.length == 1 || display == '-0') {
+                currentDisplay.textContent = 0;
+                currentLength = 1;
+                if (equalized) {
+                    theAnswer = currentDisplay.textContent;
+                }
+            } else if (display == 'READY' || display == 'BIG ENOUGH' || display == 'NEG NANCY' || display == "LOL no") {
+                console.log('delete does nothing here');
+            
+            } else if (+display >-10 && +display < 0 && display.length == 2) {
+                currentDisplay.textContent = 0;
+                currentLength = 1;
+                if (equalized) {
+                    theAnswer = currentDisplay.textContent;
+                }
+            } else {
+                display = display.substring(0, display.length-1);
+                currentDisplay.textContent = display;
+                currentLength -= 1;
+                if (equalized) {
+                    theAnswer = currentDisplay.textContent;
+                }
+            }
+    }
+    if (e.key == '.') {
+        changeDisplay('.');
+        if (equalized && firstNumberBoolean) {
+            equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 0) {
+        changeDisplay(0);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 1) {
+        changeDisplay(1);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 2) {
+        changeDisplay(2);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 3) {
+        changeDisplay(3);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 4) {
+        changeDisplay(4);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 5) {
+        changeDisplay(5);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 6) {
+        changeDisplay(6);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 7) {
+        changeDisplay(7);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 8) {
+        changeDisplay(8);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+    if (e.key == 9) {
+        changeDisplay(9);
+        if (equalized && firstNumberBoolean) {
+         equalized = false;
+            firstTime = true;
+            firstNumberBoolean = false;
+            firstNumber = undefined;
+        }
+    }
+}
