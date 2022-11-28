@@ -81,6 +81,16 @@ pressedPlus.addEventListener('click', function() {
         readyToEqual =  false;
     } else if (justOperated || pressedOnce) {
         operation = 'addition';
+        if (equalized) {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'addition';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
     }
     else if (readyToEqual) {
         secondNumber = +currentDisplay.textContent;
@@ -115,6 +125,16 @@ pressedMinus.addEventListener('click', function() {
         readyToEqual =  false;
     } else if (justOperated || pressedOnce) {
         operation = 'subtraction';
+        if (equalized) {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'subtraction';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
     } else if (readyToEqual) {
         secondNumber = +currentDisplay.textContent;
         theAnswer = operate(firstNumber, secondNumber, operation);
@@ -146,6 +166,16 @@ pressedTimes.addEventListener('click', function() {
         readyToEqual =  false;
     } else if (justOperated || pressedOnce) {
         operation = 'multiplication';
+        if (equalized) {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'multiplication';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
     } else if (readyToEqual) {
         secondNumber = +currentDisplay.textContent;
         theAnswer = operate(firstNumber, secondNumber, operation);
@@ -194,6 +224,16 @@ pressedObelus.addEventListener('click', function() {
         readyToEqual =  false;
     } else if (justOperated || pressedOnce) {
         operation = 'division';
+        if (equalized) {
+            firstNumber = +currentDisplay.textContent;
+            firstNumberBoolean = true;
+            operation = 'division';
+            clearDisplay = true;
+            equalized = false;
+            firstTime = true;
+            readyToEqual = true;
+            pressedOnce = true;
+        }
     } else if (readyToEqual) {
         secondNumber = +currentDisplay.textContent;
         theAnswer = operate(firstNumber, secondNumber, operation);
@@ -648,7 +688,7 @@ function changeDisplay(a) {
 //Below are all the keydown events. There definitely was a better way to make this code much shorter.
 
 function keyboardPressed(e) {
-    if (e.key == '='){
+    if (e.key == '=' || ['Enter'].includes(e.key)){
         buttonColor('equals');
         if (theAnswer === NaN || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             console.log("does nothing maaan");
@@ -689,6 +729,16 @@ function keyboardPressed(e) {
             readyToEqual =  false;
         } else if (justOperated || pressedOnce) {
             operation = 'addition';
+            if (equalized) {
+                firstNumber = +currentDisplay.textContent;
+                firstNumberBoolean = true;
+                operation = 'addition';
+                clearDisplay = true;
+                equalized = false;
+                firstTime = true;
+                readyToEqual = true;
+                pressedOnce = true;
+            }
         }
         else if (readyToEqual) {
             secondNumber = +currentDisplay.textContent;
@@ -722,6 +772,16 @@ function keyboardPressed(e) {
             readyToEqual =  false;
         } else if (justOperated || pressedOnce) {
             operation = 'subtraction';
+            if (equalized) {
+                firstNumber = +currentDisplay.textContent;
+                firstNumberBoolean = true;
+                operation = 'subtraction';
+                clearDisplay = true;
+                equalized = false;
+                firstTime = true;
+                readyToEqual = true;
+                pressedOnce = true;
+            }
         } else if (readyToEqual) {
             secondNumber = +currentDisplay.textContent;
             theAnswer = operate(firstNumber, secondNumber, operation);
@@ -753,6 +813,16 @@ function keyboardPressed(e) {
             readyToEqual =  false;
         } else if (justOperated || pressedOnce) {
             operation = 'multiplication';
+            if (equalized) {
+                firstNumber = +currentDisplay.textContent;
+                firstNumberBoolean = true;
+                operation = 'multiplication';
+                clearDisplay = true;
+                equalized = false;
+                firstTime = true;
+                readyToEqual = true;
+                pressedOnce = true;
+            }
         } else if (readyToEqual) {
             secondNumber = +currentDisplay.textContent;
             theAnswer = operate(firstNumber, secondNumber, operation);
@@ -774,7 +844,7 @@ function keyboardPressed(e) {
         }
     }
 
-    if (e.key == '\\') {
+    if (e.key == '\\' || ['/'].includes(e.key)) {
         buttonColor('obelus');
         if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             firstNumberBoolean = false;
@@ -784,6 +854,16 @@ function keyboardPressed(e) {
             readyToEqual =  false;
         } else if (justOperated || pressedOnce) {
             operation = 'division';
+            if (equalized) {
+                firstNumber = +currentDisplay.textContent;
+                firstNumberBoolean = true;
+                operation = 'division';
+                clearDisplay = true;
+                equalized = false;
+                firstTime = true;
+                readyToEqual = true;
+                pressedOnce = true;
+            }
         } else if (readyToEqual) {
             secondNumber = +currentDisplay.textContent;
             theAnswer = operate(firstNumber, secondNumber, operation);
@@ -865,7 +945,7 @@ function keyboardPressed(e) {
     
     
     
-    if (e.key == 'Escape') {
+    if (e.key == 'Escape' || e.key == 'Clear') {
         buttonColor('AC');
         firstNumber = undefined;
         firstNumberBoolean = false;
@@ -1045,3 +1125,7 @@ function randomizeColor() {
     return currentColor;
     
 }
+
+
+
+//Need to be able to perform an operation, press equals, then use that number to perform a new operation
