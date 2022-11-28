@@ -48,7 +48,7 @@ body {
 button {
     
     width: 71px;
-    
+    background-color: white;
     font-size: 1.5em;
     box-shadow: 1px 2px 2px black;
     font-family: 'Courier New', Courier, monospace;

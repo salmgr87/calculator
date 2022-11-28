@@ -649,6 +649,7 @@ function changeDisplay(a) {
 
 function keyboardPressed(e) {
     if (e.key == '='){
+        buttonColor('equals');
         if (theAnswer === NaN || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             console.log("does nothing maaan");
         }
@@ -679,6 +680,7 @@ function keyboardPressed(e) {
     }
     
     if (e.key == '+') {
+        buttonColor('plus');
         if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             firstNumberBoolean = false;
             currentDisplay.textContent = 0;
@@ -711,6 +713,7 @@ function keyboardPressed(e) {
     }
 
     if (e.key == '-') {
+        buttonColor('minus');
         if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             firstNumberBoolean = false;
             currentDisplay.textContent = 0;
@@ -741,6 +744,7 @@ function keyboardPressed(e) {
     }
 
     if (e.key == '*' || e.key == 'x') {
+        buttonColor('times');
         if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             firstNumberBoolean = false;
             currentDisplay.textContent = 0;
@@ -771,6 +775,7 @@ function keyboardPressed(e) {
     }
 
     if (e.key == '\\') {
+        buttonColor('obelus');
         if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
             firstNumberBoolean = false;
             currentDisplay.textContent = 0;
@@ -801,6 +806,7 @@ function keyboardPressed(e) {
     }
 
     if (e.key == 's') { //Square root
+        buttonColor('squareRoot');
         let squared = +currentDisplay.textContent;
         if (squared < 0) {
             currentDisplay.textContent = 'LOL no';
@@ -840,6 +846,7 @@ function keyboardPressed(e) {
     
     
     if (e.key == '`') { //Change the sign
+        buttonColor('sign');
         if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent =='NEG NANCY' || currentDisplay.textContent =='LOL no' || currentDisplay.textContent == '0') {
             console.log('does nothing');
         }
@@ -859,6 +866,7 @@ function keyboardPressed(e) {
     
     
     if (e.key == 'Escape') {
+        buttonColor('AC');
         firstNumber = undefined;
         firstNumberBoolean = false;
         secondNumber = undefined;
@@ -873,6 +881,7 @@ function keyboardPressed(e) {
     
     
     if (e.key == 'Backspace') {
+        buttonColor('delete');
             let display = currentDisplay.textContent;
             if (display.length == 1 || display == '-0') {
                 currentDisplay.textContent = 0;
@@ -900,6 +909,7 @@ function keyboardPressed(e) {
     }
     if (e.key == '.') {
         changeDisplay('.');
+        buttonColor('decimal');
         if (equalized && firstNumberBoolean) {
             equalized = false;
             firstTime = true;
@@ -909,6 +919,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 0) {
         changeDisplay(0);
+        buttonColor('zero');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -918,6 +929,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 1) {
         changeDisplay(1);
+        buttonColor('one');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -927,6 +939,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 2) {
         changeDisplay(2);
+        buttonColor('two');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -936,6 +949,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 3) {
         changeDisplay(3);
+        buttonColor('three');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -945,6 +959,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 4) {
         changeDisplay(4);
+        buttonColor('four');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -954,6 +969,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 5) {
         changeDisplay(5);
+        buttonColor('five');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -963,6 +979,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 6) {
         changeDisplay(6);
+        buttonColor('six');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -972,6 +989,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 7) {
         changeDisplay(7);
+        buttonColor('seven');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -981,6 +999,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 8) {
         changeDisplay(8);
+        buttonColor('eight');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -990,6 +1009,7 @@ function keyboardPressed(e) {
     }
     if (e.key == 9) {
         changeDisplay(9);
+        buttonColor('nine');
         if (equalized && firstNumberBoolean) {
          equalized = false;
             firstTime = true;
@@ -997,4 +1017,14 @@ function keyboardPressed(e) {
             firstNumber = undefined;
         }
     }
+}
+
+
+function buttonColor(e) {
+    document.getElementById(e).style.backgroundColor = 'grey';
+    
+    setTimeout(() => {
+        document.getElementById(e).style.backgroundColor = 'white';
+        }, 100);
+
 }
