@@ -1021,10 +1021,27 @@ function keyboardPressed(e) {
 
 
 function buttonColor(e) {
-    document.getElementById(e).style.backgroundColor = 'grey';
+    document.getElementById(e).style.backgroundColor = 'silver';
     
     setTimeout(() => {
-        document.getElementById(e).style.backgroundColor = 'white';
+        document.getElementById(e).style.removeProperty('background-color');
         }, 100);
 
+}
+
+const randomColors = document.getElementById('changeColor');
+randomColors.addEventListener('click', function() {
+    document.getElementById('calculatorBody').style.backgroundColor = randomizeColor();
+})
+
+let randomColor = '#000000';
+let randomColorText = 0;
+let currentColor;
+
+function randomizeColor() {
+    randomColor = Math.floor(Math.random()*16777215).toString(16);
+    randomColor = '#' + randomColor;
+    currentColor = randomColor;
+    return currentColor;
+    
 }
