@@ -10,8 +10,6 @@ function multiplyNumbers(a,b) {
     return a*b;
 }
 
-//Thinking about how to deal with the limited space of the calculator display
-//You'll probably need to create a function that rounds and deals with decimals
 let decimals = 11;
 
 function divideNumbers(a,b) {
@@ -31,6 +29,9 @@ let theAnswer;
 let operationPressed = false;
 let firstTime = true;
 let repeatedNumber;
+let readyToEqual = false;
+let justOperated = false;
+let pressedOnce = false;
 
 
 const equalsPressed = document.getElementById('equals');
@@ -44,11 +45,13 @@ equalsPressed.addEventListener('click', function() {
             repeatedNumber = secondNumber;
         }
         theAnswer = operate(theAnswer, repeatedNumber, operation);
+        if (theAnswer == 0) {theAnswer = "0"};
         currentDisplay.textContent = theAnswer;
         console.log(theAnswer + ' is theAnswer');
         console.log(secondNumber + ' is secondNumber');
         clearDisplay = true;
         equalized = true;
+        readyToEqual = false;
     }
     else if (firstNumberBoolean && operation && equalized == false) {
         secondNumber = +currentDisplay.textContent;
@@ -58,42 +61,117 @@ equalsPressed.addEventListener('click', function() {
         equalized = true;
         clearDisplay = true;
         firstTime = true;
+        readyToEqual = false;
     }
 });
 
+//Last two things (hopefully) are 1. press 2 + 3 * 4 and get 20
+//Need to solve hitting the same operation twice or more in a row
+
+
 const pressedPlus = document.getElementById('plus');
 pressedPlus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+    if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
-    } else {firstNumber = +currentDisplay.textContent;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        readyToEqual =  false;
+    } else if (justOperated || pressedOnce) {
+        operation = 'addition';
+    }
+    else if (readyToEqual) {
+        secondNumber = +currentDisplay.textContent;
+        theAnswer = operate(firstNumber, secondNumber, operation);
+        currentDisplay.textContent = theAnswer;
+        firstNumber = theAnswer;
+        clearDisplay = true;
+        operation = 'addition';
+        pressedOnce = false;
+        
+    }   else {
+        firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
-        console.log('firstNumber ' + firstNumber);
         operation = 'addition';
         clearDisplay = true;
         equalized = false;
         firstTime = true;
+        readyToEqual = true;
+        pressedOnce = true;
+
     }
 });
 
 
 const pressedMinus = document.getElementById('minus');
 pressedMinus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+    if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
-    } else {firstNumber = +currentDisplay.textContent;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        readyToEqual =  false;
+    } else if (justOperated || pressedOnce) {
+        operation = 'subtraction';
+    } else if (readyToEqual) {
+        secondNumber = +currentDisplay.textContent;
+        theAnswer = operate(firstNumber, secondNumber, operation);
+        currentDisplay.textContent = theAnswer;
+        firstNumber = theAnswer;
+        clearDisplay = true;
+        operation = 'subtraction';
+        pressedOnce = false;
+        
+    } else {
+        firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'subtraction';
         clearDisplay = true;
         equalized = false;
         firstTime = true;
+        readyToEqual = true;
+        pressedOnce = true;
     }
 });
 
 const pressedTimes = document.getElementById('times');
 pressedTimes.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
-        console.log("does nothing");
+    if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        readyToEqual =  false;
+    } else if (justOperated || pressedOnce) {
+        operation = 'multiplication';
+    } else if (readyToEqual) {
+        secondNumber = +currentDisplay.textContent;
+        theAnswer = operate(firstNumber, secondNumber, operation);
+        currentDisplay.textContent = theAnswer;
+        firstNumber = theAnswer;
+        clearDisplay = true;
+        operation = 'multiplication';
+        pressedOnce = false;
+        
+    } else {
+        firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        operation = 'multiplication';
+        clearDisplay = true;
+        equalized = false;
+        firstTime = true;
+        readyToEqual = true;
+        pressedOnce = true;
+    }
+});
+
+
+    /*if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+        firstNumberBoolean = false;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        console.log('you got it, dude');
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'multiplication';
@@ -101,14 +179,51 @@ pressedTimes.addEventListener('click', function() {
         equalized = false;
         firstTime = true;
     }
-});
+});*/
 
 
 const pressedObelus = document.getElementById('obelus');
 pressedObelus.addEventListener('click', function() {
-    if (currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
-        console.log("does nothing");
+    if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
         firstNumberBoolean = false;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        readyToEqual =  false;
+    } else if (justOperated || pressedOnce) {
+        operation = 'division';
+    } else if (readyToEqual) {
+        secondNumber = +currentDisplay.textContent;
+        theAnswer = operate(firstNumber, secondNumber, operation);
+        currentDisplay.textContent = theAnswer;
+        firstNumber = theAnswer;
+        clearDisplay = true;
+        operation = 'division';
+        pressedOnce = false;
+        
+    } else {
+        firstNumber = +currentDisplay.textContent;
+        firstNumberBoolean = true;
+        operation = 'division';
+        clearDisplay = true;
+        equalized = false;
+        firstTime = true;
+        readyToEqual = true;
+        pressedOnce = true;
+    }
+});
+    
+    
+    
+    
+    
+    
+    /*if (isNaN(currentDisplay.textContent) || currentDisplay.textContent == 'READY' || currentDisplay.textContent == 'BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent == 'LOL no') {
+        firstNumberBoolean = false;
+        currentDisplay.textContent = 0;
+        theAnswer = '';
+        equalized = false;
+        console.log('you got it, dude');
     } else {firstNumber = +currentDisplay.textContent;
         firstNumberBoolean = true;
         operation = 'division';
@@ -116,7 +231,7 @@ pressedObelus.addEventListener('click', function() {
         equalized = false;
         firstTime = true;
     }
-});
+});*/
 
 
 const pressedAllClear = document.getElementById('AC');
@@ -129,6 +244,7 @@ pressedAllClear.addEventListener('click', function() {
     equalized = false;
     firstTime = true;
     theAnswer = undefined;
+    readyToEqual = false;
     currentDisplay.textContent = 'READY';
 });
 
@@ -209,7 +325,7 @@ pressedSquareRoot.addEventListener('click', function() {
         firstNumberBoolean = false;
         secondNumber = undefined;
         operation = false;
-        clearDisplay = false;
+        clearDisplay = true;
         equalized = false;
         firstTime = true;
         theAnswer = undefined;
@@ -222,16 +338,24 @@ pressedSquareRoot.addEventListener('click', function() {
 
 function operate(a,b,operation) {
     let answer = 'error';
-    if (operation == "addition") {answer = addNumbers(a,b)};
-    if (operation == "subtraction") {answer = subtractNumbers(a,b)};
-    if (operation == "multiplication") {answer = multiplyNumbers(a,b)};
+    if (operation == "addition") {answer = addNumbers(a,b);
+        justOperated = true;
+    };
+    if (operation == "subtraction") {
+        answer = subtractNumbers(a,b);
+        justOperated = true;
+    };
+    if (operation == "multiplication") {
+        answer = multiplyNumbers(a,b);
+        justOperated = true;
+    };
     if (operation == "division") {
         if (b == 0) {
         firstNumber = false;
         firstNumberBoolean = false;
         secondNumber = undefined;
         operation = false;
-        clearDisplay = false;
+        clearDisplay = true;
         equalized = false;
         firstTime = true;
         theAnswer = undefined;
@@ -241,7 +365,8 @@ function operate(a,b,operation) {
         nanBroken = true;
         
     } else {
-        answer = divideNumbers(a,b)
+        answer = divideNumbers(a,b);
+        justOperated = true;
         }
     }
     /*if (answer > 99999999999) {
@@ -277,7 +402,7 @@ function roundAnswer(ans) {
         ans = ans.toString();
         ans = ans.substring(0,12);
         if (ans.includes('e')) {
-            console.log('goat here');
+            
             let expo = ans.substring(ans.length-1);
             if (expo == 0) {
                 return 0;
@@ -288,7 +413,9 @@ function roundAnswer(ans) {
                 leadingValuesLength -=1;
             }
             ans = +ans;
-            ans = ans.toFixed(leadingValuesLength-2 + expo);
+            let fixedLength = leadingValuesLength -2 + expo;
+            if (fixedLength >9) {fixedLength = 9;}
+            ans = ans.toFixed(fixedLength);
             return ans;
 
         } else {
@@ -300,8 +427,8 @@ function roundAnswer(ans) {
         ans = ans.toString();
         ans = ans.substring(0,11);
         if (ans.includes('e')) {
-            console.log('goat here');
             let expo = ans.substring(ans.length-1);
+            expo = +expo;
             if (expo == 0) {
                 return 0;
             }
@@ -311,7 +438,9 @@ function roundAnswer(ans) {
                 leadingValuesLength -=1;
             }
             ans = +ans;
-            ans = ans.toFixed(leadingValuesLength-1 + expo);
+            let fixedLength = leadingValuesLength-1 + expo;
+            if (fixedLength > 9 ) {fixedLength = 9;}
+            ans = ans.toFixed(fixedLength);
             return ans;
         }
             else 
@@ -454,39 +583,57 @@ function changeDisplay(a) {
     if (a == '.' && currentDisplay.textContent == 'READY') {
         currentDisplay.textContent = '0.';
         currentLength = 2;
+        justOperated = false;
+        pressedOnce = false;
 
     } else if (a == '.' && clearDisplay) {
         currentDisplay.textContent = '0.';
         currentLength = 2;
         clearDisplay = false;
+        justOperated = false;
+        pressedOnce = false;
 
     } else if (a == '.' && currentDisplay.textContent == '0') {
         currentDisplay.textContent = '0.';
         currentLength = 2;
         clearDisplay = false;
+        justOperated = false;
+        pressedOnce = false;
 
     } else if (currentDisplay.textContent == 'READY' || currentDisplay.textContent =='BIG ENOUGH' || currentDisplay.textContent == 'NEG NANCY' || currentDisplay.textContent =='LOL no' || clearDisplay || currentDisplay.textContent == '0') {
         currentDisplay.textContent = a;
         currentLength = 1;
         clearDisplay = false;
+        justOperated = false;
+        pressedOnce = false;
 
     } else if (a == 0 && currentDisplay.textContent[0] == '0' && !(currentDisplay.textContent).includes('.')) {
         console.log('does nothing');
+        justOperated = false;
+        pressedOnce = false;
 
     } else if (a == '.' && !(currentDisplay.textContent).includes('.')) {
             currentDisplay.textContent += a;
             currentLength ++;
             console.log('yes');
             console.log(currentDisplay.textContent);
+            justOperated = false;
+            pressedOnce = false;
         
     } else if (a == '.' && (currentDisplay.textContent).includes('.')) {
             console.log("do nothing");
+            justOperated = false;
+            pressedOnce = false;
 
     } else if (currentLength < 11) {
         currentDisplay.textContent += a;
         currentLength += 1;
+        justOperated = false;
+        pressedOnce = false;
     } else if (currentLength == 11 && currentDisplay.textContent[0] == '-') {
         currentDisplay.textContent += a;
         currentLength += 1;
+        justOperated = false;
+        pressedOnce = false;
     }
 };
